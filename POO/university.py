@@ -1,5 +1,4 @@
-from departamento import Departamento
-
+from department import Departamento
 class Universidade:
     def __init__(self, nome, endereco, fundacao):
         self.nome = nome

@@ -1,5 +1,4 @@
-from professor import Professor
-
+from teacher import Professor
 class Departamento:
     def __init__(self, nome, codigo, chefe=None):
         self.nome = nome
