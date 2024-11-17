@@ -1,7 +1,7 @@
 from university import Universidade
 from department import Departamento
 from teacher import Professor
-from discipline import Disciplina
+from subject import Disciplina
 
 def main(depto_ciencia=None, depto_humanas=None):
     # Criando uma universidade

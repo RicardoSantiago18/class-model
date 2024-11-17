@@ -1,4 +1,4 @@
-from discipline import Disciplina
+from subject import Disciplina
 class Professor:
     def init(self, nome, id, areaEspecializacao):
         self.nome = nome
