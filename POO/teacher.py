@@ -1,11 +1,12 @@
 from subject import Disciplina
+
 class Professor:
-    def init(self, nome, id, areaEspecializacao):
+    def __init__(self, nome, id, areaEspecializacao):
         self.nome = nome
         self.id = id
         self.areaEspecializacao = areaEspecializacao
-        self.departamento = None  # Associação (1 Professor pertence a 1 Departamento)
-        self.listaDisciplinas = []  # Associação (1 Professor leciona 1..5 Disciplinas)
+        self.departamento = None
+        self.listaDisciplinas = []
 
     def definirDepartamento(self, departamento):
         self.departamento = departamento
@@ -24,8 +25,9 @@ class Professor:
             self.listaDisciplinas.remove(disciplina)
 
     def listarDisciplinas(self):
+        print(f"Disciplinas lecionadas por {self.nome}:")
         for disciplina in self.listaDisciplinas:
-            print(f"Disciplina: {disciplina.nome}")
+            print(f"- {disciplina.nome}")
 
     def obterInformacoes(self):
         return f"Professor: {self.nome}, ID: {self.id}, Especialização: {self.areaEspecializacao}"

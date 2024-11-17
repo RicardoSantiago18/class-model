@@ -3,17 +3,17 @@ from department import Departamento
 from teacher import Professor
 from subject import Disciplina
 
-def main(depto_ciencia=None, depto_humanas=None):
+def main():
     # Criando uma universidade
     universidade = Universidade("Universidade Exemplo", "Rua da Educação, 123", "1990")
 
     # Criando departamentos
-    deptociencia = Departamento("Ciências Exatas", "CEX")
-    deptohumanas = Departamento("Ciências Humanas", "CHU")
+    depto_ciencia = Departamento("Ciências Exatas", "CEX")
+    depto_humanas = Departamento("Ciências Humanas", "CHU")
 
     # Adicionando departamentos à universidade
-    universidade.adicionarDepartamento(deptociencia)
-    universidade.adicionarDepartamento(deptohumanas)
+    universidade.adicionarDepartamento(depto_ciencia)
+    universidade.adicionarDepartamento(depto_humanas)
 
     # Criando professores
     prof_maria = Professor("Maria Silva", "12345", "Matemática")
@@ -47,4 +47,5 @@ def main(depto_ciencia=None, depto_humanas=None):
 
     print(disciplina_matematica.obterDetalhes())
 
+if __name__ == "__main__":
     main()
