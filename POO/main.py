@@ -1,51 +1,63 @@
-from university import Universidade
-from department import Departamento
-from teacher import Professor
-from subject import Disciplina
+from POO.department import Departamento
+from POO.subject import Disciplina
+from POO.teacher import Professor
+from POO.university import Universidade
+
 
 def main():
     # Criando uma universidade
-    universidade = Universidade("Universidade Exemplo", "Rua da Educação, 123", "1990")
+    usp = Universidade("USP")
 
     # Criando departamentos
-    depto_ciencia = Departamento("Ciências Exatas", "CEX")
-    depto_humanas = Departamento("Ciências Humanas", "CHU")
+    dep_computacao = Departamento("Computação")
+    dep_matematica = Departamento("Matemática")
 
     # Adicionando departamentos à universidade
-    universidade.adicionarDepartamento(depto_ciencia)
-    universidade.adicionarDepartamento(depto_humanas)
+    usp.adicionar_departamento(dep_computacao)
+    usp.adicionar_departamento(dep_matematica)
 
     # Criando professores
-    prof_maria = Professor("Maria Silva", "12345", "Matemática")
-    prof_joao = Professor("João Souza", "67890", "História")
+    prof1 = Professor("João Silva", "P001")
+    prof2 = Professor("Maria Santos", "P002")
+    prof3 = Professor("Pedro Costa", "P003")
 
     # Adicionando professores aos departamentos
-    depto_ciencia.adicionarProfessor(prof_maria)
-    depto_humanas.adicionarProfessor(prof_joao)
+    dep_computacao.adicionar_professor(prof1)
+    dep_computacao.adicionar_professor(prof2)
+    dep_matematica.adicionar_professor(prof3)
 
     # Criando disciplinas
-    disciplina_matematica = Disciplina("Matemática Avançada", "MAT101", 60, 4)
-    disciplina_historia = Disciplina("História do Brasil", "HIS202", 45, 3)
+    algoritmos = Disciplina("Algoritmos", "CC001")
+    programacao = Disciplina("Programação", "CC002")
+    calculo = Disciplina("Cálculo I", "MAT001")
 
-    # Atribuindo disciplinas aos professores
-    prof_maria.adicionarDisciplina(disciplina_matematica)
-    prof_joao.adicionarDisciplina(disciplina_historia)
+    # Associando professores às disciplinas
+    algoritmos.adicionar_professor(prof1)
+    programacao.adicionar_professor(prof1)
+    programacao.adicionar_professor(prof2)
+    calculo.adicionar_professor(prof3)
 
-    # Definindo o professor responsável pela disciplina
-    disciplina_matematica.definirProfessor(prof_maria)
-    disciplina_historia.definirProfessor(prof_joao)
+    print("=== Estado Inicial ===")
+    print(usp)
+    for dep in usp.departamentos:
+        print(f"\n{dep}")
+        for prof in dep.professores:
+            print(f"  {prof}")
+            for disc in prof.disciplinas:
+                print(f"    {disc}")
 
-    # Exibindo informações
-    print(universidade.obterInformacoes())
-    universidade.listarDepartamentos()
+    print("\n=== Desativando um Departamento ===")
+    dep_computacao.desativar()
+    print(dep_computacao)
+    print(prof1)  # Professor do departamento desativado
+    print(algoritmos)  # Disciplina que era do professor
 
-    print(depto_ciencia.obterInformacoes())
-    depto_ciencia.listarProfessores()
-
-    print(prof_maria.obterInformacoes())
-    prof_maria.listarDisciplinas()
-
-    print(disciplina_matematica.obterDetalhes())
+    print("\n=== Desativando a Universidade ===")
+    usp.desativar()
+    print(usp)
+    print(dep_matematica)  # Departamento que restava
+    print(prof3)  # Professor do departamento de matemática
+    print(calculo)  # Disciplina que era do professor
 
 if __name__ == "__main__":
     main()

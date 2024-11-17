@@ -1,26 +1,36 @@
-from teacher import Professor
 class Departamento:
-    def __init__(self, nome, codigo, chefe=None):
+    def __init__(self, nome):
         self.nome = nome
-        self.codigo = codigo
-        self.chefe = chefe
-        self.listaProfessores = []
+        self.professores = []
+        self.universidade = None
+        self.ativo = True
 
-    def adicionarProfessor(self, professor):
-        if len(self.listaProfessores) < 5:
-            self.listaProfessores.append(professor)
-            professor.definirDepartamento(self)
-        else:
-            print("O departamento já possui o número máximo de professores (5).")
+    def adicionar_professor(self, professor):
+        if not self.ativo:
+            raise Exception("Departamento inativo não pode receber professores")
+        if len(self.professores) < 5 and professor not in self.professores:
+            self.professores.append(professor)
+            professor.definir_departamento(self)
+            return True
+        return False
 
-    def removerProfessor(self, professor):
-        if professor in self.listaProfessores:
-            self.listaProfessores.remove(professor)
-            professor.removerDepartamento()
+    def remover_professor(self, professor):
+        if professor in self.professores:
+            self.professores.remove(professor)
+            if professor.departamento == self:
+                professor.departamento = None
 
-    def listarProfessores(self):
-        for professor in self.listaProfessores:
-            print(f"Professor: {professor.nome}")
+    def definir_universidade(self, universidade):
+        self.universidade = universidade
 
-    def obterInformacoes(self):
-        return f"Departamento: {self.nome}, Código: {self.codigo}, Chefe: {self.chefe.nome if self.chefe else 'N/A'}"
+    def desativar(self):
+        self.ativo = False
+        # Quando um departamento é desativado (por composição com a universidade)
+        # todos os seus professores devem ser desativados
+        for professor in self.professores[:]:
+            professor.desativar()
+        self.professores.clear()
+
+    def __str__(self):
+        status = "Ativo" if self.ativo else "Inativo"
+        return f"Departamento: {self.nome} - {status}"

@@ -1,33 +1,36 @@
-from subject import Disciplina
-
 class Professor:
-    def __init__(self, nome, id, areaEspecializacao):
+    def __init__(self, nome, id_funcional):
         self.nome = nome
-        self.id = id
-        self.areaEspecializacao = areaEspecializacao
+        self.id_funcional = id_funcional
+        self.disciplinas = []
         self.departamento = None
-        self.listaDisciplinas = []
+        self.ativo = True
 
-    def definirDepartamento(self, departamento):
+    def adicionar_disciplina(self, disciplina):
+        if not self.ativo:
+            raise Exception("Professor inativo não pode receber disciplinas")
+        if len(self.disciplinas) < 5 and disciplina not in self.disciplinas:
+            self.disciplinas.append(disciplina)
+            return True
+        return False
+
+    def definir_departamento(self, departamento):
+        if not self.ativo:
+            raise Exception("Professor inativo não pode ser associado a departamento")
+        # Remove do departamento anterior se existir
+        if self.departamento and self.departamento != departamento:
+            self.departamento.remover_professor(self)
         self.departamento = departamento
 
-    def removerDepartamento(self):
-        self.departamento = None
+    def desativar(self):
+        self.ativo = False
+        # Remove todas as disciplinas
+        for disciplina in self.disciplinas[:]:
+            disciplina.remover_professor(self)
+        # Remove do departamento
+        if self.departamento:
+            self.departamento.remover_professor(self)
 
-    def adicionarDisciplina(self, disciplina):
-        if len(self.listaDisciplinas) < 5:
-            self.listaDisciplinas.append(disciplina)
-        else:
-            print("O professor já possui o número máximo de disciplinas (5).")
-
-    def removerDisciplina(self, disciplina):
-        if disciplina in self.listaDisciplinas:
-            self.listaDisciplinas.remove(disciplina)
-
-    def listarDisciplinas(self):
-        print(f"Disciplinas lecionadas por {self.nome}:")
-        for disciplina in self.listaDisciplinas:
-            print(f"- {disciplina.nome}")
-
-    def obterInformacoes(self):
-        return f"Professor: {self.nome}, ID: {self.id}, Especialização: {self.areaEspecializacao}"
+    def __str__(self):
+        status = "Ativo" if self.ativo else "Inativo"
+        return f"Professor: {self.nome} (ID: {self.id_funcional}) - {status}"
