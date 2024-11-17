@@ -5,7 +5,7 @@ class Universidade:
         self.nome = nome
         self.endereco = endereco
         self.fundacao = fundacao
-        self.listaDepartamentos = []  # Associação (1 Universidade contém 1..5 Departamentos)
+        self.listaDepartamentos = []
 
     def adicionarDepartamento(self, departamento):
         if len(self.listaDepartamentos) < 5:
