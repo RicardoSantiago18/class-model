@@ -2,7 +2,7 @@ class Disciplina:
     def __init__(self, nome, codigo):
         self.nome = nome
         self.codigo = codigo
-        self.professor = None  # Inicialmente, a disciplina não tem professor associado
+        self.professor = None
 
     def associarProfessor(self, professor):
         if not self.professor:

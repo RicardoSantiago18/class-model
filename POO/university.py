@@ -1,25 +1,26 @@
 from department import Departamento
 
 class Universidade:
-    def __init__(self, nome, endereco, ano_fundacao):
+    def __init__(self, nome):
         self.nome = nome
-        self.endereco = endereco
-        self.ano_fundacao = ano_fundacao
         self.departamentos = []
 
-    def criarDepartamento(self, nome, codigo):
+    def adicionarDepartamento(self, departamento):
         if len(self.departamentos) < 5:
-            novo_departamento = Departamento(nome, codigo)
-            self.departamentos.append(novo_departamento)
-            return novo_departamento
+            self.departamentos.append(departamento)
         else:
             print("Número máximo de departamentos atingido!")
-            return None
 
     def listarDepartamentos(self):
-        for departamento in self.departamentos:
-            print(f"Departamento: {departamento.nome}, Código: {departamento.codigo}")
+        if self.departamentos:
+            for departamento in self.departamentos:
+                print(f"Departamento: {departamento.nome}")
+        else:
+            print("Nenhum departamento cadastrado na universidade.")
 
     def removerDepartamento(self, departamento):
         if departamento in self.departamentos:
             self.departamentos.remove(departamento)
+            print(f"Departamento {departamento.nome} removido da Universidade {self.nome}.")
+        else:
+            print(f"O Departamento {departamento.nome} não existe na Universidade {self.nome}.")
