@@ -1,36 +1,31 @@
 class Professor:
-    def __init__(self, nome, id_funcional):
+    def __init__(self, nome, id_professor, area):
         self.nome = nome
-        self.id_funcional = id_funcional
+        self.id_professor = id_professor
+        self.area = area
         self.disciplinas = []
-        self.departamento = None
-        self.ativo = True
 
-    def adicionar_disciplina(self, disciplina):
-        if not self.ativo:
-            raise Exception("Professor inativo não pode receber disciplinas")
-        if len(self.disciplinas) < 5 and disciplina not in self.disciplinas:
-            self.disciplinas.append(disciplina)
-            return True
-        return False
+    def adicionarDisciplina(self, disciplina):
+        if len(self.disciplinas) < 5:
+            if disciplina.professor is None:  # Verifica se a disciplina já tem um professor
+                self.disciplinas.append(disciplina)
+                disciplina.associarProfessor(self)  # Associa o professor à disciplina
+            else:
+                print(f"A disciplina {disciplina.nome} já está sendo ministrada por outro professor.")
+        else:
+            print("Número máximo de disciplinas atingido!")
 
-    def definir_departamento(self, departamento):
-        if not self.ativo:
-            raise Exception("Professor inativo não pode ser associado a departamento")
-        # Remove do departamento anterior se existir
-        if self.departamento and self.departamento != departamento:
-            self.departamento.remover_professor(self)
-        self.departamento = departamento
+    def listarDisciplinas(self):
+        if self.disciplinas:
+            for disciplina in self.disciplinas:
+                print(f"Disciplina: {disciplina.nome}, Código: {disciplina.codigo}")
+        else:
+            print("Este professor não ministra nenhuma disciplina.")
 
-    def desativar(self):
-        self.ativo = False
-        # Remove todas as disciplinas
-        for disciplina in self.disciplinas[:]:
-            disciplina.remover_professor(self)
-        # Remove do departamento
-        if self.departamento:
-            self.departamento.remover_professor(self)
-
-    def __str__(self):
-        status = "Ativo" if self.ativo else "Inativo"
-        return f"Professor: {self.nome} (ID: {self.id_funcional}) - {status}"
+    def removerDisciplina(self, disciplina):
+        if disciplina in self.disciplinas:
+            disciplina.removerProfessor()  # Remove o professor da disciplina
+            self.disciplinas.remove(disciplina)
+            print(f"Disciplina {disciplina.nome} removida do Professor {self.nome}.")
+        else:
+            print(f"O Professor {self.nome} não ministra a disciplina {disciplina.nome}.")

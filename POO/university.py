@@ -1,30 +1,25 @@
+from department import Departamento
+
 class Universidade:
-    def __init__(self, nome):
+    def __init__(self, nome, endereco, ano_fundacao):
         self.nome = nome
+        self.endereco = endereco
+        self.ano_fundacao = ano_fundacao
         self.departamentos = []
-        self.ativo = True
 
-    def adicionar_departamento(self, departamento):
-        if not self.ativo:
-            raise Exception("Universidade inativa não pode receber departamentos")
+    def criarDepartamento(self, nome, codigo):
         if len(self.departamentos) < 5:
-            self.departamentos.append(departamento)
-            departamento.definir_universidade(self)
-            return True
-        return False
+            novo_departamento = Departamento(nome, codigo)
+            self.departamentos.append(novo_departamento)
+            return novo_departamento
+        else:
+            print("Número máximo de departamentos atingido!")
+            return None
 
-    def remover_departamento(self, departamento):
+    def listarDepartamentos(self):
+        for departamento in self.departamentos:
+            print(f"Departamento: {departamento.nome}, Código: {departamento.codigo}")
+
+    def removerDepartamento(self, departamento):
         if departamento in self.departamentos:
             self.departamentos.remove(departamento)
-            departamento.desativar()  # Por ser composição, desativa o departamento
-
-    def desativar(self):
-        self.ativo = False
-        # Quando a universidade é desativada, por ser composição,
-        # todos os departamentos devem ser desativados
-        for departamento in self.departamentos[:]:
-            self.remover_departamento(departamento)
-
-    def __str__(self):
-        status = "Ativa" if self.ativo else "Inativa"
-        return f"Universidade: {self.nome} - {status}"

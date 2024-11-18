@@ -2,30 +2,18 @@ class Disciplina:
     def __init__(self, nome, codigo):
         self.nome = nome
         self.codigo = codigo
-        self.professores = []  # Lista de professores que ministram a disciplina
-        self.ativo = True
+        self.professor = None  # Inicialmente, a disciplina não tem professor associado
 
-    def adicionar_professor(self, professor):
-        if not self.ativo:
-            raise Exception("Disciplina inativa não pode receber professores")
-        if len(self.professores) < 5 and professor not in self.professores:
-            self.professores.append(professor)
-            if self not in professor.disciplinas:
-                professor.adicionar_disciplina(self)
-            return True
-        return False
+    def associarProfessor(self, professor):
+        if not self.professor:
+            self.professor = professor
+            print(f"Disciplina {self.nome} agora está associada ao Professor {professor.nome}.")
+        else:
+            print(f"Disciplina {self.nome} já está associada ao Professor {self.professor.nome}.")
 
-    def remover_professor(self, professor):
-        if professor in self.professores:
-            self.professores.remove(professor)
-            professor.disciplinas.remove(self)
-
-    def desativar(self):
-        self.ativo = False
-        # Remove todas as referências de professores
-        for professor in self.professores[:]:  # Usa uma cópia da lista para evitar problemas durante a iteração
-            self.remover_professor(professor)
-
-    def __str__(self):
-        status = "Ativa" if self.ativo else "Inativa"
-        return f"Disciplina: {self.nome} (Código: {self.codigo}) - {status}"
+    def removerProfessor(self):
+        if self.professor:
+            print(f"Removendo Professor {self.professor.nome} da Disciplina {self.nome}.")
+            self.professor = None
+        else:
+            print(f"A Disciplina {self.nome} não está associada a nenhum Professor.")

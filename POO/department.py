@@ -1,36 +1,26 @@
 class Departamento:
-    def __init__(self, nome):
+    def __init__(self, nome, codigo):
         self.nome = nome
+        self.codigo = codigo
         self.professores = []
-        self.universidade = None
-        self.ativo = True
 
-    def adicionar_professor(self, professor):
-        if not self.ativo:
-            raise Exception("Departamento inativo não pode receber professores")
-        if len(self.professores) < 5 and professor not in self.professores:
-            self.professores.append(professor)
-            professor.definir_departamento(self)
-            return True
-        return False
+    def adicionarProfessor(self, professor):
+        if len(self.professores) < 5:
+            if professor not in self.professores:
+                self.professores.append(professor)
+                print(f"Professor {professor.nome} associado ao departamento {self.nome}.")
+            else:
+                print("O professor já está associado a este departamento.")
+        else:
+            print("Número máximo de professores atingido!")
 
-    def remover_professor(self, professor):
+    def listarProfessores(self):
+        for professor in self.professores:
+            print(f"Professor: {professor.nome}, Área: {professor.area}")
+
+    def removerProfessor(self, professor):
         if professor in self.professores:
             self.professores.remove(professor)
-            if professor.departamento == self:
-                professor.departamento = None
-
-    def definir_universidade(self, universidade):
-        self.universidade = universidade
-
-    def desativar(self):
-        self.ativo = False
-        # Quando um departamento é desativado (por composição com a universidade)
-        # todos os seus professores devem ser desativados
-        for professor in self.professores[:]:
-            professor.desativar()
-        self.professores.clear()
-
-    def __str__(self):
-        status = "Ativo" if self.ativo else "Inativo"
-        return f"Departamento: {self.nome} - {status}"
+            print(f"Professor {professor.nome} removido do departamento {self.nome}.")
+        else:
+            print("O professor não está associado a este departamento.")
